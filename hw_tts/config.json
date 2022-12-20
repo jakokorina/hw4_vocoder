@@ -56,6 +56,16 @@
       ]
     }
   },
+  "optimizer_d": {
+    "type": "AdamW",
+    "args": {
+      "lr": 2e-4,
+      "betas": [
+        0.8,
+        0.99
+      ]
+    }
+  },
   "lr_scheduler": {
     "type": "ExponentialLR",
     "args": {
