@@ -6,7 +6,7 @@ from torch.nn.utils import weight_norm
 
 
 class ResBlock(nn.Module):
-    def __init__(self, channels: int, kernel_size: int, dilation: tuple[int, ...], leaky_coef: float = 0.1):
+    def __init__(self, channels: int, kernel_size: int, dilation, leaky_coef: float = 0.1):
         super().__init__()
 
         self.conv1 = nn.ModuleList([])
@@ -40,8 +40,8 @@ class ResBlock(nn.Module):
 class MRFBlock(nn.Module):
     def __init__(self,
                  channel: int,
-                 resblock_kernel_sizes: tuple[int, ...],
-                 resblock_dilation_sizes: tuple[tuple[int, ...], ...],
+                 resblock_kernel_sizes,
+                 resblock_dilation_sizes,
                  leaky_coef: float = 0.1):
         super().__init__()
 

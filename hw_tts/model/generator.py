@@ -9,11 +9,11 @@ from .mrf import MRFBlock
 
 class Generator(nn.Module):
     def __init__(self,
-                 upsample_rates: tuple[int, ...],
-                 upsample_kernel_sizes: tuple[int, ...],
+                 upsample_rates,
+                 upsample_kernel_sizes,
                  upsample_init_channel: int,
-                 resblock_kernel_sizes: tuple[int, ...],
-                 resblock_dilation_sizes: tuple[tuple[int, ...], ...],
+                 resblock_kernel_sizes,
+                 resblock_dilation_sizes,
                  leaky_coef: float = 0.1
                  ):
         super().__init__()
