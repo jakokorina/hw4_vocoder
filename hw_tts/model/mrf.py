@@ -13,8 +13,8 @@ class ResBlock(nn.Module):
         self.conv2 = nn.ModuleList([])
 
         for d_i in dilation:
-            self.conv1.append(weight_norm(nn.Conv1d(channels, channels, kernel_size, 1, dilation=d_i, padding="SAME")))
-            self.conv2.append(weight_norm(nn.Conv1d(channels, channels, kernel_size, 1, dilation=1, padding="SAME")))
+            self.conv1.append(weight_norm(nn.Conv1d(channels, channels, kernel_size, 1, dilation=d_i, padding="same")))
+            self.conv2.append(weight_norm(nn.Conv1d(channels, channels, kernel_size, 1, dilation=1, padding="same")))
 
         self.leaky = leaky_coef
         self._reset_parameters()
