@@ -11,6 +11,7 @@ from torch.utils.data import Dataset
 from hw_tts.audio import MelSpectrogramGenerator
 from hw_tts.base.base_text_encoder import BaseTextEncoder
 from hw_tts.utils.parse_config import ConfigParser
+from hw_tts.audio import MelSpectrogramConfig
 
 logger = logging.getLogger(__name__)
 
@@ -55,7 +56,7 @@ class BaseDataset(Dataset):
     def load_audio(self, path):
         audio_tensor, sr = torchaudio.load(path)
         audio_tensor = audio_tensor[0:1, :]  # remove all channels but the first
-        target_sr = self.config_parser["preprocessing"]["sr"]
+        target_sr = MelSpectrogramConfig.sr
         if sr != target_sr:
             audio_tensor = torchaudio.functional.resample(audio_tensor, sr, target_sr)
         return audio_tensor
@@ -63,7 +64,6 @@ class BaseDataset(Dataset):
     def process_wave(self, audio_tensor_wave: Tensor):
         with torch.no_grad():
             audio_tensor_spec = self.wave2spec(audio_tensor_wave)
-
             return audio_tensor_wave, audio_tensor_spec
 
     @staticmethod
