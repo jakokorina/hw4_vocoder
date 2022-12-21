@@ -9,7 +9,7 @@ class FeatureLoss(nn.Module):
     def forward(self, fmaps_real, fmaps_generated):
         loss = 0
         for fmap_r, fmap_g in zip(fmaps_real, fmaps_generated):
-            for r, g in fmap_r, fmap_g:
+            for r, g in zip(fmap_r, fmap_g):
                 loss += self.loss_function(r, g)
 
         return loss
