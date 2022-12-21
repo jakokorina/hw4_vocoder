@@ -76,6 +76,7 @@ class Trainer(BaseTrainer):
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
+        self._evaluation_epoch(0)
         self.model.train()
         self.mpd.train()
         self.msd.train()
@@ -208,7 +209,7 @@ class Trainer(BaseTrainer):
         self.model.eval()
         self.writer.set_step(epoch * self.len_epoch, "eval")
         for i, phn in tqdm(enumerate(self.eval_loader)):
-            wav = self.model(phn).squeeze().detach()
+            wav = self.model(phn["spectrogram"].float().to(self.device)).squeeze().detach()
             self._log_audio(f"result_{i}", wav)
 
     def _progress(self, batch_idx):
