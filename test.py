@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     # first, we need to obtain config with model parameters
     # we assume it is located with checkpoint in the same folder
-    model_config = Path(args.resume).parent / "config.json"
+    model_config = Path(args.config)
     with model_config.open() as f:
         config = ConfigParser(json.load(f), resume=args.resume)
 
