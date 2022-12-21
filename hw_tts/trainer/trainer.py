@@ -1,5 +1,6 @@
 import typing as tp
 import torch
+import torch.nn.functional as F
 
 from torch.nn.utils import clip_grad_norm_
 from tqdm import tqdm
@@ -140,6 +141,8 @@ class Trainer(BaseTrainer):
         # Forward
         wav_pred = self.model(spectrogram)
         spec_pred = self.mel_spec_generator(wav_pred.squeeze(1))
+        if spectrogram.shape[-1] != spec_pred.shape[-1]:
+            spectrogram = F.pad(spectrogram, (0, spectrogram.shape[-1] - spec_pred.shape[-1]))
 
         # Teaching discriminator
         y_mpd_pred, _ = self.mpd(wav_pred.detach())
