@@ -11,7 +11,7 @@ class GeneratorLoss(nn.Module):
     def forward(self, outputs):
         cum_loss = 0
         for dg in outputs:
-            loss = self.loss_function(dg, torch.tensor([1.0], device=outputs.device))
+            loss = self.loss_function(dg, torch.tensor([1.0], device=dg.device))
             cum_loss += loss
 
         return cum_loss
