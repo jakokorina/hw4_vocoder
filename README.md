@@ -27,9 +27,13 @@ gdown.download(url, output, quiet=False)
 
 Then unzip this file
 
+```shell
+gzip -d model.pth.gz
+```
+
 ## Results
 
-They are located in the `results` folder. The report is 
+They are located in the `results` folder. The report is
 [here](https://wandb.ai/jakokorina/vocoder_project/reports/HW4-Vocoder--VmlldzozMTk2NzMy).
 
 ## Reproducing
