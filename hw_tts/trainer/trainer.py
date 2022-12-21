@@ -142,7 +142,7 @@ class Trainer(BaseTrainer):
         wav_pred = self.model(spectrogram)
         spec_pred = self.mel_spec_generator(wav_pred.squeeze(1))
         if spectrogram.shape[-1] != spec_pred.shape[-1]:
-            wav_real = F.pad(spectrogram, (0, wav_pred.shape[-1] - wav_real.shape[-1]))
+            wav_real = F.pad(wav_real, (0, wav_pred.shape[-1] - wav_real.shape[-1]))
             spectrogram = self.mel_spec_generator(wav_real.squeeze(1))
 
         # Teaching discriminator
