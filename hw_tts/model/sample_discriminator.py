@@ -28,7 +28,7 @@ class SDiscriminator(nn.Module):
 
         for conv in self.convs:
             output = F.leaky_relu(conv(output), self.leaky)
-            feature_map.append(output.clone())
+            feature_map.append(output)
 
         output = self.conv_post(output)
         feature_map.append(output)
