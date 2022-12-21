@@ -43,7 +43,7 @@ def main(config):
     os.makedirs("results", exist_ok=True)
     with torch.no_grad():
         for i, phn in tqdm(enumerate(test_data)):
-            wav = model(phn["spectrogram"].float().to(device)).squeeze().detach()
+            wav = model(phn["spectrogram"].float().to(device)).squeeze().detach().cpu().numpy()
             torchaudio.save(f"results/result_{i}.wav", wav, MelSpectrogramConfig.sr)
 
 
