@@ -11,8 +11,8 @@ class DiscriminatorLoss(nn.Module):
     def forward(self, real_outputs, generated_outputs):
         loss = 0
         for dr, dg in zip(real_outputs, generated_outputs):
-            r_loss = self.loss_function(dr, torch.tensor([1.0]))
-            g_loss = self.loss_function(dg, torch.tensor([0.0]))
+            r_loss = self.loss_function(dr, torch.tensor([1.0], device=real_outputs.device))
+            g_loss = self.loss_function(dg, torch.tensor([0.0], device=real_outputs.device))
             loss += (r_loss + g_loss)
 
         return loss
