@@ -20,10 +20,12 @@ pip install -r ./requirements.txt
 ```python
 import gdown
 
-url = "https://drive.google.com/u/0/uc?id=1zdxuCP1-szvx5TkKmSsAgAAQYE6VjuPx"
-output = "model.pth"
+url = "https://drive.google.com/u/0/uc?id=169uDWmf9b9bVSEsvajfb363USBujOR_L"
+output = "model.pth.gz"
 gdown.download(url, output, quiet=False)
 ```
+
+Then unzip this file
 
 ## Results
 
