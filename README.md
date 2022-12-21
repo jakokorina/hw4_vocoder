@@ -27,7 +27,8 @@ gdown.download(url, output, quiet=False)
 
 ## Results
 
-They are located in the `results` folder. The report is [here](it_will_be_here).
+They are located in the `results` folder. The report is 
+[here](https://wandb.ai/jakokorina/vocoder_project/reports/HW4-Vocoder--VmlldzozMTk2NzMy).
 
 ## Reproducing
 
