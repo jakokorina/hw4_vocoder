@@ -41,7 +41,7 @@ class PDiscriminator(nn.Module):
             output = F.leaky_relu(conv(output), self.leaky)
             feature_map.append(output)
 
-        output = self.conv_post(output)
+        output = self.post_conv(output)
         feature_map.append(output)
         output = torch.flatten(output, 1, -1)
 
