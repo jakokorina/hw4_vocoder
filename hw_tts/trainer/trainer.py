@@ -81,46 +81,43 @@ class Trainer(BaseTrainer):
 
         self.train_metrics.reset()
         self.writer.add_scalar("epoch", epoch)
-        step = 0
-        for batchs_idx, batchs in enumerate(
+        for batch_idx, batch in enumerate(
                 tqdm(self.train_dataloader, desc="train", total=self.len_epoch)
         ):
-            for j, batch in enumerate(batchs):
-                step += 1
-                try:
-                    batch = self.process_batch(
-                        batch,
-                        is_train=True,
-                        metrics=self.train_metrics,
+            try:
+                batch = self.process_batch(
+                    batch,
+                    is_train=True,
+                    metrics=self.train_metrics,
+                )
+            except RuntimeError as e:
+                if "out of memory" in str(e) and self.skip_oom:
+                    self.logger.warning("OOM on batch. Skipping batch.")
+                    for p in self.model.parameters():
+                        if p.grad is not None:
+                            del p.grad  # free some memory
+                    torch.cuda.empty_cache()
+                    continue
+                else:
+                    raise e
+            self.train_metrics.update("grad norm", self.get_grad_norm())
+            if batch_idx % self.log_step == 0:
+                self.writer.set_step(batch_idx)
+                self.logger.debug(
+                    "Train Epoch: {} {} Loss: {:.6f}".format(
+                        epoch, self._progress(batch_idx), batch["total_loss"].item()
                     )
-                except RuntimeError as e:
-                    if "out of memory" in str(e) and self.skip_oom:
-                        self.logger.warning("OOM on batch. Skipping batch.")
-                        for p in self.model.parameters():
-                            if p.grad is not None:
-                                del p.grad  # free some memory
-                        torch.cuda.empty_cache()
-                        continue
-                    else:
-                        raise e
-                self.train_metrics.update("grad norm", self.get_grad_norm())
-                if step % self.log_step == 0:
-                    self.writer.set_step(step)
-                    self.logger.debug(
-                        "Train Epoch: {} {} Loss: {:.6f}".format(
-                            epoch, self._progress(batchs_idx), batch["total_loss"].item()
-                        )
-                    )
-                    self.writer.add_scalar(
-                        "learning rate", self.lr_scheduler_g.get_last_lr()[0]
-                    )
+                )
+                self.writer.add_scalar(
+                    "learning rate", self.lr_scheduler_g.get_last_lr()[0]
+                )
 
-                    self._log_scalars(self.train_metrics)
-                    # we don't want to reset train metrics at the start of every epoch
-                    # because we are interested in recent train metrics
-                    last_train_metrics = self.train_metrics.result()
-                    self.train_metrics.reset()
-            if batchs_idx >= self.len_epoch:
+                self._log_scalars(self.train_metrics)
+                # we don't want to reset train metrics at the start of every epoch
+                # because we are interested in recent train metrics
+                last_train_metrics = self.train_metrics.result()
+                self.train_metrics.reset()
+            if batch_idx >= self.len_epoch:
                 break
 
         log = last_train_metrics
