@@ -76,7 +76,6 @@ class Trainer(BaseTrainer):
         :param epoch: Integer, current training epoch.
         :return: A log that contains average loss and metric in this epoch.
         """
-        self._evaluation_epoch(0)
         self.model.train()
         self.mpd.train()
         self.msd.train()
