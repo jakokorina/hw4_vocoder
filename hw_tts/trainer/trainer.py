@@ -60,7 +60,7 @@ class Trainer(BaseTrainer):
         self.lambda_mel = lambda_mel
         self.lambda_fm = lambda_fm
 
-        self.mel_spec_generator = MelSpectrogramGenerator()
+        self.mel_spec_generator = MelSpectrogramGenerator().to(device)
 
     def _clip_grad_norm(self, model):
         if self.config["trainer"].get("grad_norm_clip", None) is not None:
