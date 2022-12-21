@@ -163,8 +163,8 @@ class Trainer(BaseTrainer):
         # Teaching generator
         self.optimizer.zero_grad()
 
-        y_mpd_pred, fmp_mpd_pred = self.mpd(wav_pred.detach())
-        y_msd_pred, fmp_msd_pred = self.msd(wav_pred.detach())
+        y_mpd_pred, fmp_mpd_pred = self.mpd(wav_pred)
+        y_msd_pred, fmp_msd_pred = self.msd(wav_pred)
 
         y_mpd_real, fmp_mpd_real = self.mpd(wav_real)
         y_msd_real, fmp_msd_real = self.msd(wav_real)
