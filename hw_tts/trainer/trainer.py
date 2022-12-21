@@ -45,7 +45,7 @@ class Trainer(BaseTrainer):
             self.len_epoch = len_epoch
         self.lr_scheduler_g = lr_scheduler_g
         self.lr_scheduler_d = lr_scheduler_d
-        self.log_step = 200
+        self.log_step = 50
 
         self.eval_loader = dataloaders["eval"]
         self.train_metrics = MetricTracker(
