@@ -50,7 +50,8 @@ class Trainer(BaseTrainer):
 
         self.eval_loader = dataloaders["eval"]
         self.train_metrics = MetricTracker(
-            "loss", "mel_loss", "generator_loss", "feature_map_loss", "grad norm", writer=self.writer
+            "loss", "mel_loss", "generator_loss", "feature_map_loss", "grad norm", "discriminator_loss",
+            writer=self.writer
         )
 
         self.discr_loss = DiscriminatorLoss()
@@ -157,6 +158,7 @@ class Trainer(BaseTrainer):
         loss_s = self.discr_loss(y_msd_real, y_msd_pred)
 
         loss_disc = loss_p + loss_s
+        batch["discriminator_loss"] = loss_disc.detach().cpu().numpy()
         loss_disc.backward()
         self.optimizer_d.step()
 
@@ -193,6 +195,7 @@ class Trainer(BaseTrainer):
         self.optimizer.step()
 
         metrics.update("loss", t_l)
+        metrics.update("discriminator_loss", batch["discriminator_loss"])
         metrics.update("mel_loss", m_l)
         metrics.update("feature_map_loss", fm_l)
         metrics.update("generator_loss", g_l)
