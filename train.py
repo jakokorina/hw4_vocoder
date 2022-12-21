@@ -6,7 +6,6 @@ import numpy as np
 import torch
 from itertools import chain
 
-import hw_tts.loss as module_loss
 import hw_tts.model as module_arch
 from hw_tts.trainer import Trainer
 from hw_tts.utils import prepare_device
