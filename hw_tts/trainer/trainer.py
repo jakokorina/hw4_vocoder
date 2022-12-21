@@ -176,8 +176,6 @@ class Trainer(BaseTrainer):
         loss_g_s = self.generator_loss(y_msd_pred)
 
         total_loss = self.lambda_mel * mel_loss + self.lambda_fm * (loss_fm_p + loss_fm_s) + loss_g_p + loss_g_s
-        total_loss.backward()
-        self.optimizer.step()
 
         t_l = total_loss.detach().cpu().numpy()
         m_l = mel_loss.detach().cpu().numpy()
