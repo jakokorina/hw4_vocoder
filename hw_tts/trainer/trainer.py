@@ -149,8 +149,8 @@ class Trainer(BaseTrainer):
         y_msd_real, _ = self.msd(wav_real)
 
         # Calc loss
-        loss_p, _, _ = self.discr_loss(y_mpd_real, y_mpd_pred)
-        loss_s, _, _ = self.discr_loss(y_msd_real, y_msd_pred)
+        loss_p = self.discr_loss(y_mpd_real, y_mpd_pred)
+        loss_s = self.discr_loss(y_msd_real, y_msd_pred)
 
         loss_disc = loss_p + loss_s
         loss_disc.backward()
@@ -168,8 +168,8 @@ class Trainer(BaseTrainer):
         mel_loss = self.mel_loss(spectrogram, spec_pred)
         loss_fm_p = self.feature_loss(fmp_mpd_real, fmp_mpd_pred)
         loss_fm_s = self.feature_loss(fmp_msd_real, fmp_msd_pred)
-        loss_g_p, _ = self.generator_loss(y_mpd_pred)
-        loss_g_s, _ = self.generator_loss(y_msd_pred)
+        loss_g_p = self.generator_loss(y_mpd_pred)
+        loss_g_s = self.generator_loss(y_msd_pred)
 
         total_loss = self.lambda_mel * mel_loss + self.lambda_fm * (loss_fm_p + loss_fm_s) + loss_g_p + loss_g_s
         total_loss.backward()
