@@ -99,6 +99,9 @@ if __name__ == "__main__":
         CustomArgs(
             ["--bs", "--batch_size"], type=int, target="data_loader;args;batch_size"
         ),
+        CustomArgs(
+            ["--ne", "--n_epoch"], type=int, target="trainer;epochs"
+        ),
     ]
     config = ConfigParser.from_args(args, options)
     main(config)
